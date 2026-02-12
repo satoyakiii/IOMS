@@ -1,5 +1,4 @@
 // public/auth.js
-// Управление отображением логина/регистрации, logout, проверка роли
 async function getCurrentUser() {
   try {
     const res = await fetch('/api/auth/me', { cache: 'no-store' });
