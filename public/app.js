@@ -1,5 +1,3 @@
-// public/app.js
-// Унифицированный фронтенд-скрипт: auth check, products CRUD render, orders view
 
 let products = [];
 let editingProductId = null;
@@ -16,7 +14,7 @@ async function apiJSON(path, opts = {}) {
   return r;
 }
 
-// ========== AUTH helpers ==========
+
 async function checkAuth() {
   try {
     const res = await apiGet('/api/auth/me');
@@ -91,7 +89,6 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// ========== Products API functions ==========
 async function fetchProducts() {
   try {
     const res = await fetch('/api/products');
@@ -138,7 +135,6 @@ async function updateProduct(id, productData) {
       const error = await res.json().catch(()=>({error:'Failed'}));
       throw new Error(error.error || 'Failed to update product');
     }
-    // backend returns something minimal; refresh list to be safe
     await fetchProducts();
     showSuccess('Product updated successfully!');
   } catch (error) {
@@ -165,14 +161,12 @@ async function deleteProduct(id) {
   }
 }
 
-// ========== Orders for user ==========
 async function fetchOrdersForCurrentUser() {
   if (!currentUser) return;
   try {
     const res = await fetch('/api/orders', { credentials: 'same-origin' });
     if (!res.ok) throw new Error('Failed to fetch orders');
     const body = await res.json();
-    // backend returns { items, page, total } in earlier code — handle both formats
     const items = body.items || body;
     renderOrders(items);
   } catch (err) {
@@ -192,8 +186,6 @@ function renderOrders(items=[]) {
     items.map(o => `<tr><td>${escapeHtml(o.productName || o.productId || 'Product')}</td><td>${o.quantity}</td><td>${o.totalPrice || '-'}</td><td>${o.status||'-'}</td></tr>`).join('')
   }</tbody></table>`;
 }
-
-// ========== UI & rendering ==========
 function renderProductsTable() {
   const tbody = document.getElementById('products-tbody');
   if (!tbody) return;
@@ -309,7 +301,6 @@ async function handleProductFormSubmit(e) {
   } catch (err) {}
 }
 
-// ===== Notifications =====
 function showSuccess(message) { showNotification(message,'success'); }
 function showError(message) { showNotification(message,'error'); }
 function showNotification(message, type) {
@@ -327,9 +318,8 @@ function escapeHtml(text='') {
   return div.innerHTML;
 }
 
-// ===== Init =====
 document.addEventListener('DOMContentLoaded', async () => {
-  // attach product form handlers (if exists)
+  // attach product form handlers 
   const pform = document.getElementById('product-form');
   if (pform) pform.addEventListener('submit', handleProductFormSubmit);
   const cancelBtn = document.getElementById('cancel-btn');
