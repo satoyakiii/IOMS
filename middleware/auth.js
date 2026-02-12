@@ -1,8 +1,6 @@
 // middleware/auth.js
 
-/**
- * Middleware: Проверяет, залогинен ли пользователь
- */
+
 function requireAuth(req, res, next) {
   if (!req.session || !req.session.userId) {
     return res.status(401).json({ error: 'Unauthorized. Please login.' });
@@ -10,9 +8,6 @@ function requireAuth(req, res, next) {
   next();
 }
 
-/**
- * Middleware: Проверяет, является ли пользователь admin
- */
 function requireAdmin(req, res, next) {
   if (!req.session || !req.session.userId) {
     return res.status(401).json({ error: 'Unauthorized. Please login.' });
@@ -25,9 +20,6 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-/**
- * Middleware: Проверяет, является ли пользователь владельцем ресурса или admin
- */
 function requireOwnerOrAdmin(resourceUserId) {
   return (req, res, next) => {
     if (!req.session || !req.session.userId) {
