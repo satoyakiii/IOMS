@@ -1,15 +1,15 @@
-// routes/products.js
+
 const express = require('express');
 const { getDB, ObjectId } = require('../database/db');
 
 const router = express.Router();
 
-// Helper: validate ObjectId
+
 function isValidObjectId(id) {
   return ObjectId.isValid(id) && String(new ObjectId(id)) === id;
 }
 
-// Helper: validate product payload
+
 function validateProductPayload(payload) {
   if (!payload) return { ok: false, error: 'Missing body' };
 
@@ -39,13 +39,13 @@ function validateProductPayload(payload) {
   };
 }
 
-// GET /api/products - Get all products with filtering, sorting, projection
+
 router.get('/', async (req, res) => {
   try {
     const db = getDB();
     const collection = db.collection('products');
 
-    // Фильтрация
+    
     const filter = {};
     if (req.query.name) {
       filter.name = { $regex: req.query.name, $options: 'i' };
@@ -57,12 +57,12 @@ router.get('/', async (req, res) => {
       filter.price = { ...filter.price, $lte: Number(req.query.maxPrice) };
     }
 
-    // Сортировка (по умолчанию по name ascending)
+    
     const sortField = req.query.sortBy || 'name';
     const sortOrder = req.query.order === 'desc' ? -1 : 1;
     const sort = { [sortField]: sortOrder };
 
-    // Проекция (какие поля возвращать)
+    
     let projection = {};
     if (req.query.fields) {
       const fields = req.query.fields.split(',');
@@ -83,7 +83,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/products/:id - Get single product
+
 router.get('/:id', async (req, res) => {
   const id = req.params.id;
   
@@ -108,7 +108,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST /api/products - Create new product
+
 router.post('/', async (req, res) => {
   const validation = validateProductPayload(req.body);
   if (!validation.ok) {
@@ -145,7 +145,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT /api/products/:id - Update product
+
 router.put('/:id', async (req, res) => {
   const id = req.params.id;
   
@@ -195,7 +195,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE /api/products/:id - Delete product
+
 router.delete('/:id', async (req, res) => {
   const id = req.params.id;
   

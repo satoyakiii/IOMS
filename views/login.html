@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login | IOMS</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">IOMS</a>
+      <div class="nav-links" id="main-links-left">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/about" class="nav-link">About</a>
+        <a href="/contact" class="nav-link">Contact</a>
+      </div>
+
+      <div class="nav-links" id="auth-area" style="align-items:center;gap:0.6rem;">
+        <a href="/login" class="nav-link" id="login-link">Login</a>
+        <a href="/register" class="nav-link" id="register-link">Register</a>
+        <a href="/orders" class="nav-link" id="orders-link" style="display:none;">My Orders</a>
+        <span id="user-email" style="display:none;color:#374151;font-weight:600;"></span>
+        <button id="logout-btn" class="btn" style="display:none;padding:6px 10px;border-radius:8px;">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="card" style="max-width:720px;margin:2rem auto;">
+      <h2>Login</h2>
+      <form id="login-form" class="contact-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required placeholder="you@example.com" />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" required placeholder="••••••••" />
+        </div>
+        <div style="display:flex;gap:1rem;align-items:center;">
+          <button type="submit" class="btn btn-primary">Login</button>
+          <a href="/register" class="nav-link">Register</a>
+        </div>
+        <div id="login-message" style="margin-top:1rem;"></div>
+      </form>
+    </section>
+  </main>
+
+  <footer><p>&copy; 2024 IOMS</p></footer>
+
+  <script>
+    async function postJSON(url, body){
+      return fetch(url,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(body)
+      });
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const msgEl = document.getElementById('login-message');
+      try {
+        const res = await postJSON('/api/auth/login', { email, password });
+        if (!res.ok) {
+          const err = await res.json().catch(()=>({ error: 'Login failed' }));
+          msgEl.textContent = err.error || 'Login failed';
+          msgEl.style.color = 'red';
+          return;
+        }
+        window.location.href = '/';
+      } catch (err) {
+        msgEl.textContent = 'Network error';
+        msgEl.style.color = 'red';
+      }
+    });
+  </script>
+  <script src="/app.js"></script>
+</body>
+</html>

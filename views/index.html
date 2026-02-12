@@ -1,295 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IOMS | Inventory and Order Management System</title>
-    <link rel="stylesheet" href="/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>IOMS | Inventory and Order Management System</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">IOMS</a>
 
-    <nav class="nav-bar">
-        <div class="nav-container">
-            <a href="/" class="nav-brand">IOMS</a>
-            <div class="nav-links">
-                <a href="/" class="nav-link active">Home</a>
-                <a href="/about" class="nav-link">About</a>
-                <a href="/contact" class="nav-link">Contact</a>
-            </div>
-        </div>
-    </nav>
+      <!-- main nav links -->
+      <div class="nav-links" id="main-links-left">
+        <a href="/" class="nav-link" id="nav-home">Home</a>
+        <a href="/about" class="nav-link" id="nav-about">About</a>
+        <a href="/contact" class="nav-link" id="nav-contact">Contact</a>
+      </div>
 
-    <header>
-        <h1>Inventory and Order Management System (IOMS)</h1>
-        <p>
-            A backend API with MongoDB for managing products, inventory levels,
-            and customer orders.
-        </p>
-    </header>
+      <!-- auth area (single-line, updated by JS) -->
+      <div class="nav-links" id="auth-area" style="align-items:center;gap:0.6rem;">
+        <a href="/login" class="nav-link" id="login-link">Login</a>
+        <a href="/register" class="nav-link" id="register-link">Register</a>
 
-    <main>
+        <!-- shown when logged -->
+        <a href="/orders" class="nav-link" id="orders-link" style="display:none;">My Orders</a>
+        <span id="user-email" style="display:none;color:#374151;font-weight:600;"></span>
+        <button id="logout-btn" class="btn" style="display:none;padding:6px 10px;border-radius:8px;">Logout</button>
+      </div>
+    </div>
+  </nav>
 
-        <section id="about">
-            <h2>About the Project</h2>
-            <p>
-                <strong>Assignment 3 - Part 1:</strong> This project implements a complete 
-                CRUD API using Node.js, Express.js, and MongoDB (native driver).
-            </p>
-            <p>
-                The system provides filtering, sorting, and projection capabilities 
-                for efficient data retrieval and management.
-            </p>
-        </section>
+  <header>
+    <h1>Inventory and Order Management System (IOMS)</h1>
+    <p>
+      A backend API with MongoDB for managing products, inventory levels,
+      and customer orders.
+    </p>
+  </header>
 
-        <section id="api">
-            <h2>🔗 API Test Links</h2>
-            <p>Click on the links below to test the API directly in your browser:</p>
-            
-            <h3>Basic Operations</h3>
-            <ul>
-                <li>
-                    <strong>GET</strong> 
-                    <a href="/api/products" target="_blank">/api/products</a> 
-                    - Get all products
-                </li>
-                <li>
-                    <strong>GET</strong> 
-                    <a href="/api/info" target="_blank">/api/info</a> 
-                    - API information
-                </li>
-            </ul>
+  <main>
+    <section id="about">
+      <h2>About the Project</h2>
+      <p><strong>IOMS</strong> This project implements a complete CRUD API using Node.js, Express.js, and MongoDB (native driver).</p>
+      <p>The system provides filtering, sorting, and projection capabilities for efficient data retrieval and management.</p>
+    </section>
 
-            <h3>Filtering Examples</h3>
-            <ul>
-                <li>
-                    <a href="/api/products?name=laptop" target="_blank">
-                        /api/products?name=laptop
-                    </a> 
-                    - Filter by name
-                </li>
-                <li>
-                    <a href="/api/products?minPrice=500" target="_blank">
-                        /api/products?minPrice=500
-                    </a> 
-                    - Products above $500
-                </li>
-                <li>
-                    <a href="/api/products?minPrice=500&maxPrice=2000" target="_blank">
-                        /api/products?minPrice=500&maxPrice=2000
-                    </a> 
-                    - Price range $500-$2000
-                </li>
-            </ul>
+    <!-- API Test Links (we will hide it for non-admins via JS) -->
+    <section id="api" class="card">
+      <h2>🔗 API Test Links</h2>
+      <p>Click on the links below to test the API directly in your browser:</p>
+      <ul id="api-links-list">
+        <li><strong>GET</strong> <a href="/api/products" target="_blank">/api/products</a> - Get all products</li>
+        <li><strong>GET</strong> <a href="/api/info" target="_blank">/api/info</a> - API information</li>
+      </ul>
+    </section>
 
-            <h3>Sorting Examples</h3>
-            <ul>
-                <li>
-                    <a href="/api/products?sortBy=price&order=asc" target="_blank">
-                        /api/products?sortBy=price&order=asc
-                    </a> 
-                    - Sort by price (ascending)
-                </li>
-                <li>
-                    <a href="/api/products?sortBy=price&order=desc" target="_blank">
-                        /api/products?sortBy=price&order=desc
-                    </a> 
-                    - Sort by price (descending)
-                </li>
-                <li>
-                    <a href="/api/products?sortBy=name" target="_blank">
-                        /api/products?sortBy=name
-                    </a> 
-                    - Sort by name
-                </li>
-            </ul>
+    <!-- Products management -->
+    <section id="products" class="card">
+      <h2>🛒 Products Management</h2>
 
-            <h3>Projection Examples</h3>
-            <ul>
-                <li>
-                    <a href="/api/products?fields=name,price" target="_blank">
-                        /api/products?fields=name,price
-                    </a> 
-                    - Only name and price
-                </li>
-                <li>
-                    <a href="/api/products?fields=name" target="_blank">
-                        /api/products?fields=name
-                    </a> 
-                    - Only product names
-                </li>
-            </ul>
+      <div id="notification" class="notification" style="display:none;"></div>
 
-            <h3>Combined Queries</h3>
-            <ul>
-                <li>
-                    <a href="/api/products?name=laptop&sortBy=price&order=desc&fields=name,price" target="_blank">
-                        /api/products?name=laptop&sortBy=price&order=desc&fields=name,price
-                    </a> 
-                    - Laptops, sorted by price (desc), show only name & price
-                </li>
-            </ul>
-        </section>
+      <div class="products-table-container">
+        <h3>Current Products</h3>
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="products-tbody">
+            <tr><td colspan="5" style="text-align:center;padding:2rem;color:#6b7280;">Loading products...</td></tr>
+          </tbody>
+        </table>
+      </div>
 
-        <section id="database">
-            <h2>💾 Database Information</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Property</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Database Type</strong></td>
-                        <td>MongoDB</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Driver</strong></td>
-                        <td>MongoDB Native Node.js Driver</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Database Name</strong></td>
-                        <td>ioms_db</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Collection</strong></td>
-                        <td>products</td>
-                    </tr>
-                    <tr>
-                        <td><strong>ID Type</strong></td>
-                        <td>ObjectId</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+      <!-- Add/Edit Product Form (only visible to admins) -->
+      <div id="product-form-section" class="product-form-section" style="display:none;">
+        <h3 id="form-title">Add New Product</h3>
+        <form id="product-form" class="product-form">
+          <div class="form-row">
+            <div class="form-group"><label for="product-name">Product Name *</label>
+              <input id="product-name" name="name" type="text" placeholder="e.g., Laptop" required></div>
 
-        <section id="features">
-            <h2>✨ Implemented Features</h2>
-            <ul>
-                <li>✅ Complete CRUD operations (Create, Read, Update, Delete)</li>
-                <li>✅ Filtering by name and price range</li>
-                <li>✅ Sorting by any field (ascending/descending)</li>
-                <li>✅ Field projection (select specific fields)</li>
-                <li>✅ Input validation with proper error messages</li>
-                <li>✅ Correct HTTP status codes (200, 201, 400, 404, 500)</li>
-                <li>✅ MongoDB native driver (no Mongoose)</li>
-                <li>✅ Modular folder structure (routes/, database/)</li>
-                <li>✅ Custom logger middleware</li>
-                <li>✅ Global error handlers</li>
-            </ul>
-        </section>
-<!-- ВСТАВИТЬ ЭТУ СЕКЦИЮ В index.html ПЕРЕД секцией id="team" -->
+            <div class="form-group"><label for="product-price">Price ($) *</label>
+              <input id="product-price" name="price" type="number" step="0.01" min="0" required></div>
 
-        <section id="products">
-            <h2>🛒 Products Management</h2>
-            <p>Manage your inventory directly from this interface. All operations are performed via the backend API.</p>
-            
-            <!-- Notification Area -->
-            <div id="notification" class="notification" style="display: none;"></div>
-            
-            <!-- Products Table -->
-            <div class="products-table-container">
-                <h3>Current Products</h3>
-                <table class="products-table">
-                    <thead>
-                        <tr>
-                            <th>Product Name</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Created</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="products-tbody">
-                        <tr>
-                            <td colspan="5" style="text-align: center; padding: 2rem;">
-                                Loading products...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <!-- Add/Edit Product Form -->
-            <div id="product-form-section" class="product-form-section">
-                <h3 id="form-title">Add New Product</h3>
-                <form id="product-form" class="product-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="product-name">Product Name *</label>
-                            <input 
-                                type="text" 
-                                id="product-name" 
-                                name="name" 
-                                placeholder="e.g., Laptop"
-                                required
-                            >
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="product-price">Price ($) *</label>
-                            <input 
-                                type="number" 
-                                id="product-price" 
-                                name="price" 
-                                placeholder="0.00"
-                                step="0.01"
-                                min="0"
-                                required
-                            >
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="product-quantity">Quantity *</label>
-                            <input 
-                                type="number" 
-                                id="product-quantity" 
-                                name="quantity" 
-                                placeholder="0"
-                                min="0"
-                                required
-                            >
-                        </div>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="submit" id="submit-btn" class="btn btn-primary">Add Product</button>
-                        <button type="button" id="cancel-btn" class="btn" style="display: none;">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </section>
-        <section id="team">
-            <h2>👥 Project Team</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Group</th>
-                        <th>Role</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Kuanyshbek Aisana</td>
-                        <td>SE-2428</td>
-                        <td>Backend Developer</td>
-                    </tr>
-                    <tr>
-                        <td>Rakhmanova Assem</td>
-                        <td>SE-2428</td>
-                        <td>Backend Developer</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+            <div class="form-group"><label for="product-quantity">Quantity *</label>
+              <input id="product-quantity" name="quantity" type="number" min="0" required></div>
+          </div>
 
-    </main>
+          <div class="form-actions">
+            <button type="submit" id="submit-btn" class="btn btn-primary">Add Product</button>
+            <button type="button" id="cancel-btn" class="btn" style="display:none;">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </section>
 
-    <footer>
-        <p>&copy; 2024 IOMS | Assignment 3 Part 1 | Web Technologies 2 (Back End)</p>
-    </footer>
-    <script src="/app.js"></script>
+
+    <section id="team" class="card">
+      <h2>👥 Project Team</h2>
+      <table>
+        <thead><tr><th>Name</th><th>Group</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td>Kuanyshbek Aisana</td><td>SE-2428</td><td>Backend Developer</td></tr>
+          <tr><td>Rakhmanova Assem</td><td>SE-2428</td><td>Backend Developer</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 IOMS | Assignment 3 Part 1 | Web Technologies 2 (Back End)</p>
+  </footer>
+
+  <script src="/app.js"></script>
 </body>
 </html>

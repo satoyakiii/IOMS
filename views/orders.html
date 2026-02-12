@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Orders | IOMS</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<nav class="nav-bar">
+  <div class="nav-container">
+    <a href="/" class="nav-brand">IOMS</a>
+    <div class="nav-links" id="main-links-left">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/about" class="nav-link">About</a>
+      <a href="/contact" class="nav-link">Contact</a>
+    </div>
+    <div class="nav-links" id="auth-area" style="align-items:center;gap:0.6rem;">
+      <a href="/login" class="nav-link" id="login-link">Login</a>
+      <a href="/register" class="nav-link" id="register-link">Register</a>
+      <a href="/orders" class="nav-link active" id="orders-link" style="display:none;">My Orders</a>
+      <span id="user-email" style="display:none;color:#374151;font-weight:600;"></span>
+      <button id="logout-btn" class="btn" style="display:none;padding:6px 10px;border-radius:8px;">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <h1>My Orders</h1>
+  <p>Your purchase history</p>
+</header>
+
+<main>
+  <section id="orders-container">
+    <p>Loading orders...</p>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2024 IOMS</p>
+</footer>
+
+<script>
+async function loadOrders() {
+  const container = document.getElementById('orders-container');
+
+  try {
+    const res = await fetch('/api/orders');
+    
+    if (!res.ok) {
+      if (res.status === 401) {
+        container.innerHTML = "<p>Please login to view your orders.</p>";
+        return;
+      }
+      throw new Error();
+    }
+
+    const data = await res.json();
+    const orders = data.items || [];
+
+    if (orders.length === 0) {
+      container.innerHTML = "<p>You don't have any orders.</p>";
+      return;
+    }
+
+    container.innerHTML = `
+      <table class="products-table">
+        <thead>
+          <tr>
+            <th>Product ID</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${orders.map(o => `
+            <tr>
+              <td>${o.productId}</td>
+              <td>${o.quantity}</td>
+              <td>$${o.totalPrice}</td>
+              <td>${o.status}</td>
+              <td>${new Date(o.createdAt).toLocaleDateString()}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  } catch {
+    container.innerHTML = "<p>Error loading orders</p>";
+  }
+}
+
+loadOrders();
+</script>
+<script src="/app.js"></script>
+</body>
+</html>

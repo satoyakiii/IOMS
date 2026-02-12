@@ -1,101 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About | IOMS</title>
-    <link rel="stylesheet" href="/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About | IOMS</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+  <!-- same navbar structure -->
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">IOMS</a>
+      <div class="nav-links" id="main-links-left">
+        <a href="/" class="nav-link" id="nav-home">Home</a>
+        <a href="/about" class="nav-link active" id="nav-about">About</a>
+        <a href="/contact" class="nav-link" id="nav-contact">Contact</a>
+      </div>
 
-    <nav class="nav-bar">
-        <div class="nav-container">
-            <a href="/" class="nav-brand">IOMS</a>
-            <div class="nav-links">
-                <a href="/" class="nav-link">Home</a>
-                <a href="/about" class="nav-link active">About</a>
-                <a href="/contact" class="nav-link">Contact</a>
-        </div>
-    </nav>
+      <div class="nav-links" id="auth-area" style="align-items:center;gap:0.6rem;">
+        <a href="/login" class="nav-link" id="login-link">Login</a>
+        <a href="/register" class="nav-link" id="register-link">Register</a>
+        <a href="/orders" class="nav-link" id="orders-link" style="display:none;">My Orders</a>
+        <span id="user-email" style="display:none;color:#374151;font-weight:600;"></span>
+        <button id="logout-btn" class="btn" style="display:none;padding:6px 10px;border-radius:8px;">Logout</button>
+      </div>
+    </div>
+  </nav>
 
-    <header>
-        <h1>About IOMS</h1>
-        <p>Learn more about our project and team</p>
-    </header>
+  <header><h1>About IOMS</h1><p>Learn more about our project and team</p></header>
 
-    <main>
+  <main>
+    <section class="card">
+      <h2>Our Mission</h2>
+      <p>The Inventory and Order Management System (IOMS) was created to solve real-world business challenges...</p>
+    </section>
 
-        <section>
-            <h2>Our Mission</h2>
-            <p>
-                The Inventory and Order Management System (IOMS) was created to solve 
-                real-world business challenges in inventory tracking and order processing.
-                Our goal is to provide a robust backend system that automates routine 
-                operations while giving administrators full control over critical business data.
-            </p>
-        </section>
+    <section class="card">
+      <h2>Technology Stack</h2>
+      <ul>
+        <li><strong>Node.js</strong></li>
+        <li><strong>Express.js</strong></li>
+        <li><strong>PostgreSQL</strong> (planned)</li>
+        <li><strong>MongoDB</strong> (planned)</li>
+      </ul>
+    </section>
+  </main>
 
-        <section>
-            <h2>Technology Stack</h2>
-            <p>
-                IOMS is built with modern web technologies to ensure scalability, 
-                reliability, and ease of maintenance:
-            </p>
-            <ul>
-                <li><strong>Node.js:</strong> Runtime environment for server-side JavaScript</li>
-                <li><strong>Express.js:</strong> Web framework for routing and middleware</li>
-                <li><strong>PostgreSQL:</strong> Relational database for core data (planned)</li>
-                <li><strong>MongoDB:</strong> NoSQL database for logging and auxiliary data (planned)</li>
-            </ul>
-        </section>
+  <footer><p>&copy; 2024 IOMS | Web Technologies 2</p></footer>
 
-        <section>
-            <h2>Team Members</h2>
-            <div class="team-grid">
-                <div class="team-member">
-                    <h3>Kuanyshbek Aisana</h3>
-                    <p class="team-role">Backend Developer</p>
-                    <p class="team-group">SE-2428</p>
-                    <p>Responsible for server architecture, routing, and database integration.</p>
-                </div>
-                <div class="team-member">
-                    <h3>Rakhmanova Assem</h3>
-                    <p class="team-role">Backend Developer</p>
-                    <p class="team-group">SE-2428</p>
-                    <p>Responsible for API design, data validation, and business logic implementation.</p>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h2>Project Timeline</h2>
-            <p>
-                This project is being developed over 10 weeks as part of the 
-                Web Technologies 2 (Back End) course. Key milestones include:
-            </p>
-            <ul>
-                <li><strong>Weeks 1-2:</strong> Project setup, Express.js basics, routing and forms</li>
-                <li><strong>Weeks 3-4:</strong> API development and server-side logic</li>
-                <li><strong>Weeks 5-6:</strong> Database integration (PostgreSQL and MongoDB)</li>
-                <li><strong>Week 7:</strong> Backend deployment and environment configuration</li>
-                <li><strong>Weeks 8-9:</strong> RESTful API completion and authentication</li>
-                <li><strong>Week 10:</strong> Final testing and project demonstration</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>Get in Touch</h2>
-            <p>
-                Have questions or feedback about IOMS? We'd love to hear from you!
-            </p>
-            <a href="/contact" class="btn">Contact Us</a>
-        </section>
-
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Inventory and Order Management System | Web Technologies 2 (Back End)</p>
-    </footer>
-
+  <script src="/app.js"></script>
 </body>
 </html>

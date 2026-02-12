@@ -1,17 +1,13 @@
-require('dotenv').config();
 // database/db.js
+require('dotenv').config();
 const { MongoClient, ObjectId } = require('mongodb');
 
-// MongoDB connection URI
 const uri = process.env.MONGO_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017';
 const dbName = 'ioms_db';
 
 let db = null;
 let client = null;
 
-/**
- * Подключение к MongoDB
- */
 async function connectDB() {
   try {
     client = new MongoClient(uri);
@@ -25,9 +21,6 @@ async function connectDB() {
   }
 }
 
-/**
- * Получить базу данных
- */
 function getDB() {
   if (!db) {
     throw new Error('Database not initialized. Call connectDB() first.');
@@ -35,9 +28,6 @@ function getDB() {
   return db;
 }
 
-/**
- * Закрыть соединение с БД
- */
 async function closeDB() {
   if (client) {
     await client.close();

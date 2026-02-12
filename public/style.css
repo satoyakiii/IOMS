@@ -697,3 +697,40 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* === additions for auth/navbar layout === */
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.nav-links {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.auth-links .nav-link, .main-links .nav-link {
+  padding: 6px 10px;
+}
+.nav-user {
+  margin-left: 10px;
+  font-weight: 600;
+  color: #111827;
+}
+.role-badge { font-size: 0.75rem; }
+
+/* Auth card styling */
+.auth-section { padding: 48px 0; display:flex; justify-content:center; }
+.auth-card { width:100%; max-width:720px; background:var(--bg-secondary); padding:28px; border-radius:12px; box-shadow:var(--shadow-md); }
+.form-message { margin-top: 12px; font-weight:600; }
+
+/* Ensure small nav buttons look consistent */
+.nav-logout { padding:8px 10px; font-size:0.9rem; }
